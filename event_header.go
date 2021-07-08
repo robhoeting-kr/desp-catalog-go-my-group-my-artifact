@@ -29,10 +29,10 @@ type EventHeader struct {
 	// Service that produced the event. Future: reference to producer registry.
 	Source string `json:"source"`
 	// Service that produced the event. Future: reference to producer registry.
-	Source2 string `json:"source2"`
+	Source3 string `json:"source3"`
 }
 
-const EventHeaderAvroCRC64Fingerprint = "\xaf\x12\xa0\xaa\x8e\x1c\x88\x94"
+const EventHeaderAvroCRC64Fingerprint = "E\xf6\n\xf8\x112!\xb3"
 
 func NewEventHeader() EventHeader {
 	r := EventHeader{}
@@ -80,7 +80,7 @@ func writeEventHeader(r EventHeader, w io.Writer) error {
 	if err != nil {
 		return err
 	}
-	err = vm.WriteString(r.Source2, w)
+	err = vm.WriteString(r.Source3, w)
 	if err != nil {
 		return err
 	}
@@ -92,7 +92,7 @@ func (r EventHeader) Serialize(w io.Writer) error {
 }
 
 func (r EventHeader) Schema() string {
-	return "{\"doc\":\"The below fields include header information and should be included on every event in the DESP. Inspired by: https://github.com/cloudevents/spec/blob/v0.2/spec.md\",\"fields\":[{\"doc\":\"A unique identifier of the event - for example, a randomly generated GUID\",\"name\":\"id\",\"type\":{\"avro.java.string\":\"String\",\"type\":\"string\"}},{\"doc\":\"Time the event occurred in milliseconds since epoch, UTC timezone.\",\"name\":\"time\",\"type\":\"long\"},{\"doc\":\"Type of occurrence which has happened. Reference the domain.event registered in schema-registry.\",\"name\":\"type\",\"type\":{\"avro.java.string\":\"String\",\"type\":\"string\"}},{\"doc\":\"Service that produced the event. Future: reference to producer registry.\",\"name\":\"source\",\"type\":{\"avro.java.string\":\"String\",\"type\":\"string\"}},{\"doc\":\"Service that produced the event. Future: reference to producer registry.\",\"name\":\"source2\",\"type\":{\"avro.java.string\":\"String\",\"type\":\"string\"}}],\"name\":\"com.kroger.desp.commons.desp.healthcheck.rph.EventHeader\",\"type\":\"record\"}"
+	return "{\"doc\":\"The below fields include header information and should be included on every event in the DESP. Inspired by: https://github.com/cloudevents/spec/blob/v0.2/spec.md\",\"fields\":[{\"doc\":\"A unique identifier of the event - for example, a randomly generated GUID\",\"name\":\"id\",\"type\":{\"avro.java.string\":\"String\",\"type\":\"string\"}},{\"doc\":\"Time the event occurred in milliseconds since epoch, UTC timezone.\",\"name\":\"time\",\"type\":\"long\"},{\"doc\":\"Type of occurrence which has happened. Reference the domain.event registered in schema-registry.\",\"name\":\"type\",\"type\":{\"avro.java.string\":\"String\",\"type\":\"string\"}},{\"doc\":\"Service that produced the event. Future: reference to producer registry.\",\"name\":\"source\",\"type\":{\"avro.java.string\":\"String\",\"type\":\"string\"}},{\"doc\":\"Service that produced the event. Future: reference to producer registry.\",\"name\":\"source3\",\"type\":{\"avro.java.string\":\"String\",\"type\":\"string\"}}],\"name\":\"com.kroger.desp.commons.desp.healthcheck.rph.EventHeader\",\"type\":\"record\"}"
 }
 
 func (r EventHeader) SchemaName() string {
@@ -119,7 +119,7 @@ func (r *EventHeader) Get(i int) types.Field {
 	case 3:
 		return &types.String{Target: &r.Source}
 	case 4:
-		return &types.String{Target: &r.Source2}
+		return &types.String{Target: &r.Source3}
 	}
 	panic("Unknown field index")
 }
@@ -163,7 +163,7 @@ func (r EventHeader) MarshalJSON() ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	output["source2"], err = json.Marshal(r.Source2)
+	output["source3"], err = json.Marshal(r.Source3)
 	if err != nil {
 		return nil, err
 	}
@@ -234,18 +234,18 @@ func (r *EventHeader) UnmarshalJSON(data []byte) error {
 		return fmt.Errorf("no value specified for source")
 	}
 	val = func() json.RawMessage {
-		if v, ok := fields["source2"]; ok {
+		if v, ok := fields["source3"]; ok {
 			return v
 		}
 		return nil
 	}()
 
 	if val != nil {
-		if err := json.Unmarshal([]byte(val), &r.Source2); err != nil {
+		if err := json.Unmarshal([]byte(val), &r.Source3); err != nil {
 			return err
 		}
 	} else {
-		return fmt.Errorf("no value specified for source2")
+		return fmt.Errorf("no value specified for source3")
 	}
 	return nil
 }
