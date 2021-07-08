@@ -3,7 +3,7 @@ this is generated golang code for my_group my_artifact
 To use, 
 go get command is:
 
-```golang
+```go.mod
 module github.com/krogertechnology/simple-consumer
 
 go 1.13
