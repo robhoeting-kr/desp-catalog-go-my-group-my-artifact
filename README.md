@@ -4,5 +4,12 @@ To use,
 go get command is:
 
 ```shell
-go get github.com/robhoeting-kr/desp-catalog-go-my-group-my-artifact/...
+module github.com/krogertechnology/simple-consumer
+
+go 1.13
+
+require (
+	github.com/actgardner/gogen-avro/v9 v9.0.0 // indirect
+	github.com/robhoeting-kr/desp-catalog-go-my-group-my-artifact v0.0.6
+)
 ```
