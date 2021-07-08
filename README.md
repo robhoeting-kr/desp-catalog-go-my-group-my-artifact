@@ -1,5 +1,5 @@
 This repository contains generated golang code for:
-* Event Family: https://desp.kroger.com/event-family/__EFID__
+* Event Family: https://desp.kroger.com/event-family/xxxxxxx
 * Version: v0.0.7
 
 To use this in your go client, add the following requirements to your go.mod file.
