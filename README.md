@@ -1,0 +1,1 @@
+this is generated golang code for my_group my_artifact
