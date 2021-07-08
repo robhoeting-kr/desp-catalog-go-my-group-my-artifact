@@ -29,7 +29,7 @@ type RobTest struct {
 	EventHeader *UnionNullEventHeader `json:"eventHeader"`
 }
 
-const RobTestAvroCRC64Fingerprint = "/W\x9e\xf8A\x10%{"
+const RobTestAvroCRC64Fingerprint = "[\x851*\xb1\x90\fC"
 
 func NewRobTest() RobTest {
 	r := RobTest{}
@@ -94,7 +94,7 @@ func (r RobTest) Serialize(w io.Writer) error {
 }
 
 func (r RobTest) Schema() string {
-	return "{\"fields\":[{\"doc\":\"Example: This is a sample attribute, please edit.\",\"name\":\"sample\",\"type\":\"string\"},{\"default\":null,\"doc\":\"\",\"name\":\"sample2\",\"type\":[\"null\",{\"avro.java.string\":\"String\",\"type\":\"string\"}]},{\"default\":null,\"doc\":\"\",\"name\":\"sample3\",\"type\":[\"null\",{\"avro.java.string\":\"String\",\"type\":\"string\"}]},{\"default\":null,\"doc\":\"\",\"name\":\"eventHeader\",\"type\":[\"null\",{\"doc\":\"The below fields include header information and should be included on every event in the DESP. Inspired by: https://github.com/cloudevents/spec/blob/v0.2/spec.md\",\"fields\":[{\"doc\":\"A unique identifier of the event - for example, a randomly generated GUID\",\"name\":\"id\",\"type\":{\"avro.java.string\":\"String\",\"type\":\"string\"}},{\"doc\":\"Time the event occurred in milliseconds since epoch, UTC timezone.\",\"name\":\"time\",\"type\":\"long\"},{\"doc\":\"Type of occurrence which has happened. Reference the domain.event registered in schema-registry.\",\"name\":\"type\",\"type\":{\"avro.java.string\":\"String\",\"type\":\"string\"}},{\"doc\":\"Service that produced the event. Future: reference to producer registry.\",\"name\":\"source\",\"type\":{\"avro.java.string\":\"String\",\"type\":\"string\"}}],\"name\":\"EventHeader\",\"namespace\":\"com.kroger.desp.commons.desp.healthcheck.rph\",\"type\":\"record\"}]}],\"name\":\"com.kroger.desp.events.desp.healthcheck.rph.RobTest\",\"type\":\"record\"}"
+	return "{\"fields\":[{\"doc\":\"Example: This is a sample attribute, please edit.\",\"name\":\"sample\",\"type\":\"string\"},{\"default\":null,\"doc\":\"\",\"name\":\"sample2\",\"type\":[\"null\",{\"avro.java.string\":\"String\",\"type\":\"string\"}]},{\"default\":null,\"doc\":\"\",\"name\":\"sample3\",\"type\":[\"null\",{\"avro.java.string\":\"String\",\"type\":\"string\"}]},{\"default\":null,\"doc\":\"\",\"name\":\"eventHeader\",\"type\":[\"null\",{\"doc\":\"The below fields include header information and should be included on every event in the DESP. Inspired by: https://github.com/cloudevents/spec/blob/v0.2/spec.md\",\"fields\":[{\"doc\":\"A unique identifier of the event - for example, a randomly generated GUID\",\"name\":\"id\",\"type\":{\"avro.java.string\":\"String\",\"type\":\"string\"}},{\"doc\":\"Time the event occurred in milliseconds since epoch, UTC timezone.\",\"name\":\"time\",\"type\":\"long\"},{\"doc\":\"Type of occurrence which has happened. Reference the domain.event registered in schema-registry.\",\"name\":\"type\",\"type\":{\"avro.java.string\":\"String\",\"type\":\"string\"}},{\"doc\":\"Service that produced the event. Future: reference to producer registry.\",\"name\":\"source\",\"type\":{\"avro.java.string\":\"String\",\"type\":\"string\"}},{\"doc\":\"Service that produced the event. Future: reference to producer registry.\",\"name\":\"source2\",\"type\":{\"avro.java.string\":\"String\",\"type\":\"string\"}}],\"name\":\"EventHeader\",\"namespace\":\"com.kroger.desp.commons.desp.healthcheck.rph\",\"type\":\"record\"}]}],\"name\":\"com.kroger.desp.events.desp.healthcheck.rph.RobTest\",\"type\":\"record\"}"
 }
 
 func (r RobTest) SchemaName() string {

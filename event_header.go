@@ -28,9 +28,11 @@ type EventHeader struct {
 	Type string `json:"type"`
 	// Service that produced the event. Future: reference to producer registry.
 	Source string `json:"source"`
+	// Service that produced the event. Future: reference to producer registry.
+	Source2 string `json:"source2"`
 }
 
-const EventHeaderAvroCRC64Fingerprint = "E\x1bן\x9efZ\x8f"
+const EventHeaderAvroCRC64Fingerprint = "\xaf\x12\xa0\xaa\x8e\x1c\x88\x94"
 
 func NewEventHeader() EventHeader {
 	r := EventHeader{}
@@ -78,6 +80,10 @@ func writeEventHeader(r EventHeader, w io.Writer) error {
 	if err != nil {
 		return err
 	}
+	err = vm.WriteString(r.Source2, w)
+	if err != nil {
+		return err
+	}
 	return err
 }
 
@@ -86,7 +92,7 @@ func (r EventHeader) Serialize(w io.Writer) error {
 }
 
 func (r EventHeader) Schema() string {
-	return "{\"doc\":\"The below fields include header information and should be included on every event in the DESP. Inspired by: https://github.com/cloudevents/spec/blob/v0.2/spec.md\",\"fields\":[{\"doc\":\"A unique identifier of the event - for example, a randomly generated GUID\",\"name\":\"id\",\"type\":{\"avro.java.string\":\"String\",\"type\":\"string\"}},{\"doc\":\"Time the event occurred in milliseconds since epoch, UTC timezone.\",\"name\":\"time\",\"type\":\"long\"},{\"doc\":\"Type of occurrence which has happened. Reference the domain.event registered in schema-registry.\",\"name\":\"type\",\"type\":{\"avro.java.string\":\"String\",\"type\":\"string\"}},{\"doc\":\"Service that produced the event. Future: reference to producer registry.\",\"name\":\"source\",\"type\":{\"avro.java.string\":\"String\",\"type\":\"string\"}}],\"name\":\"com.kroger.desp.commons.desp.healthcheck.rph.EventHeader\",\"type\":\"record\"}"
+	return "{\"doc\":\"The below fields include header information and should be included on every event in the DESP. Inspired by: https://github.com/cloudevents/spec/blob/v0.2/spec.md\",\"fields\":[{\"doc\":\"A unique identifier of the event - for example, a randomly generated GUID\",\"name\":\"id\",\"type\":{\"avro.java.string\":\"String\",\"type\":\"string\"}},{\"doc\":\"Time the event occurred in milliseconds since epoch, UTC timezone.\",\"name\":\"time\",\"type\":\"long\"},{\"doc\":\"Type of occurrence which has happened. Reference the domain.event registered in schema-registry.\",\"name\":\"type\",\"type\":{\"avro.java.string\":\"String\",\"type\":\"string\"}},{\"doc\":\"Service that produced the event. Future: reference to producer registry.\",\"name\":\"source\",\"type\":{\"avro.java.string\":\"String\",\"type\":\"string\"}},{\"doc\":\"Service that produced the event. Future: reference to producer registry.\",\"name\":\"source2\",\"type\":{\"avro.java.string\":\"String\",\"type\":\"string\"}}],\"name\":\"com.kroger.desp.commons.desp.healthcheck.rph.EventHeader\",\"type\":\"record\"}"
 }
 
 func (r EventHeader) SchemaName() string {
@@ -112,6 +118,8 @@ func (r *EventHeader) Get(i int) types.Field {
 		return &types.String{Target: &r.Type}
 	case 3:
 		return &types.String{Target: &r.Source}
+	case 4:
+		return &types.String{Target: &r.Source2}
 	}
 	panic("Unknown field index")
 }
@@ -152,6 +160,10 @@ func (r EventHeader) MarshalJSON() ([]byte, error) {
 		return nil, err
 	}
 	output["source"], err = json.Marshal(r.Source)
+	if err != nil {
+		return nil, err
+	}
+	output["source2"], err = json.Marshal(r.Source2)
 	if err != nil {
 		return nil, err
 	}
@@ -220,6 +232,20 @@ func (r *EventHeader) UnmarshalJSON(data []byte) error {
 		}
 	} else {
 		return fmt.Errorf("no value specified for source")
+	}
+	val = func() json.RawMessage {
+		if v, ok := fields["source2"]; ok {
+			return v
+		}
+		return nil
+	}()
+
+	if val != nil {
+		if err := json.Unmarshal([]byte(val), &r.Source2); err != nil {
+			return err
+		}
+	} else {
+		return fmt.Errorf("no value specified for source2")
 	}
 	return nil
 }
